@@ -15,7 +15,7 @@ func HandlerLogin(s *State, cmd Command) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("User has been set")
+	fmt.Println("user has been set")
 	return nil
 }
 
