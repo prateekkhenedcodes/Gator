@@ -5,12 +5,16 @@ import (
 	"os"
 	"path/filepath"
 )
+
 const configFileName = ".gatorconfig.json"
 
 type Config struct {
+	DBUrl           string `json:"db_url"`
+	CurrentUserName string `json:"current_user_name"`
+}
 
-    DBUrl           string `json:"db_url"`
-    CurrentUserName string `json:"current_user_name"`
+type State struct {
+	ConfigPtr *Config
 }
 
 func getConfigFilePath() (string, error) {
@@ -23,7 +27,7 @@ func getConfigFilePath() (string, error) {
 }
 func Read() (Config, error) {
 	filePath, err := getConfigFilePath()
-	if err != nil{
+	if err != nil {
 		return Config{}, err
 	}
 	rawData, err := os.ReadFile(filePath)
@@ -39,7 +43,7 @@ func Read() (Config, error) {
 	return config, nil
 }
 
-func (c *Config)SetUser(u string)  error{
+func (c *Config) SetUser(u string) error {
 	filePath, err := getConfigFilePath()
 	if err != nil {
 		return err
@@ -53,5 +57,5 @@ func (c *Config)SetUser(u string)  error{
 	if err != nil {
 		return err
 	}
-	return nil 
+	return nil
 }
