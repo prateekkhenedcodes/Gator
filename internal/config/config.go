@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+
+	"github.com/prateekkhenedcodes/Gator/internal/database"
 )
 
 const configFileName = ".gatorconfig.json"
@@ -13,7 +15,20 @@ type Config struct {
 	CurrentUserName string `json:"current_user_name"`
 }
 
+func (c *Config) Save() error {
+	data, err := json.Marshal(c)
+	if err != nil {
+		return err
+	}
+	homeDir, err := getConfigFilePath()
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(homeDir, data, 0644)
+}
+
 type State struct {
+	Db        *database.Queries
 	ConfigPtr *Config
 }
 
@@ -43,19 +58,4 @@ func Read() (Config, error) {
 	return config, nil
 }
 
-func (c *Config) SetUser(u string) error {
-	filePath, err := getConfigFilePath()
-	if err != nil {
-		return err
-	}
-	c.CurrentUserName = u
-	data, err := json.Marshal(c)
-	if err != nil {
-		return err
-	}
-	err = os.WriteFile(filePath, data, 0666)
-	if err != nil {
-		return err
-	}
-	return nil
-}
+
