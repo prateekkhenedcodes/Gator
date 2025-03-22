@@ -101,3 +101,10 @@ func HandlerRegister(s *State, cmd Command) error {
 
 	return nil
 }
+func HandlerReset(s *State, cmd Command) error {
+	err := s.Db.DeleteAllUsers(context.Background())
+	if err != nil {
+		return fmt.Errorf("could not delete the users", err)
+	}
+	return nil
+}
