@@ -108,3 +108,18 @@ func HandlerReset(s *State, cmd Command) error {
 	}
 	return nil
 }
+
+func HandlerGetUsers(s *State, cmd Command) error {
+	users, err := s.Db.GetUsers(context.Background())
+	if err != nil {
+		return err
+	}
+	for _, user := range users {
+		if user.Name == s.ConfigPtr.CurrentUserName {
+			fmt.Println("* ", user.Name, "(current)")
+			continue
+		}
+		fmt.Println("* ", user.Name)
+	}
+	return nil
+}
