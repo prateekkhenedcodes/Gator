@@ -123,3 +123,12 @@ func HandlerGetUsers(s *State, cmd Command) error {
 	}
 	return nil
 }
+
+func Handleragg(s *State, cmd Command) error {
+	feed, err := fetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
+	if err != nil {
+		return err
+	}
+	fmt.Print(*feed)
+	return nil
+}
