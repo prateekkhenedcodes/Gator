@@ -3,6 +3,7 @@ package config
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -130,5 +131,39 @@ func Handleragg(s *State, cmd Command) error {
 		return err
 	}
 	fmt.Print(*feed)
+	return nil
+}
+
+func HandleAddFeed(s *State, cmd Command) error {
+	if len(cmd.Args) < 2 {
+		return fmt.Errorf("not enough arguments")
+	}
+
+	name := cmd.Args[0]
+	url := cmd.Args[1]
+
+	cUser := s.ConfigPtr.CurrentUserName
+	if cUser == "" {
+		log.Fatalf("No current username is configured")
+	}
+
+	cId, err := s.Db.GetIdOfUser(context.Background(), cUser)
+	if err != nil {
+		return err
+	}
+
+	feed, err := s.Db.CreateFeed(context.Background(), database.CreateFeedParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		Name:      name,
+		Url:       url,
+		UserID:    cId,
+	})
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Feed added successfully: ID=%d, Name=%s, URL=%s, UserID=%d\n", feed.ID, feed.Name, feed.Url, feed.UserID)
 	return nil
 }

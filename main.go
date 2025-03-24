@@ -42,6 +42,7 @@ func main() {
 	cmds.Register("reset", config.HandlerReset)
 	cmds.Register("users", config.HandlerGetUsers)
 	cmds.Register("agg", config.Handleragg)
+	cmds.Register("addfeed", config.HandleAddFeed)
 
 	args := os.Args
 	if len(args) < 2 {
