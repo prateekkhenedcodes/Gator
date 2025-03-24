@@ -21,3 +21,7 @@ SELECT * FROM users;
 -- name: GetIdOfUser :one
 SELECT id FROM users
 WHERE name = $1; 
+
+-- name: GetUserOfIf :one
+SELECT name FROM users
+WHERE id = $1; 

@@ -105,7 +105,7 @@ func HandlerRegister(s *State, cmd Command) error {
 func HandlerReset(s *State, cmd Command) error {
 	err := s.Db.DeleteAllUsers(context.Background())
 	if err != nil {
-		return fmt.Errorf("could not delete the users", err)
+		return fmt.Errorf("could not delete the users, %s", err)
 	}
 	return nil
 }
@@ -165,5 +165,22 @@ func HandleAddFeed(s *State, cmd Command) error {
 	}
 
 	fmt.Printf("Feed added successfully: ID=%d, Name=%s, URL=%s, UserID=%d\n", feed.ID, feed.Name, feed.Url, feed.UserID)
+	return nil
+}
+
+func HandleFeed(s *State, cmd Command) error {
+	feeds, err := s.Db.GetFeed(context.Background())
+	if err != nil {
+		return err
+	}
+	for _, feed := range feeds {
+		fmt.Println(feed.Name)
+		fmt.Println(feed.Url)
+		userName, err := s.Db.GetUserOfIf(context.Background(), feed.UserID)
+		if err != nil {
+			return err
+		}
+		fmt.Println(userName)
+	}
 	return nil
 }
