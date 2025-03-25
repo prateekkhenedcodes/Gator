@@ -1,5 +1,5 @@
 -- +goose up 
-CREATE TABLE feed (
+CREATE TABLE feeds (
     id UUID PRIMARY KEY, 
     created_at TIMESTAMP NOT NULL, 
     updated_at TIMESTAMP NOT NULL, 
@@ -11,4 +11,4 @@ CREATE TABLE feed (
 ); 
 
 -- +goose Down
-DROP TABLE IF EXISTS feed;
+DROP TABLE IF EXISTS feeds;

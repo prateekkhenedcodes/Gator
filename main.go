@@ -44,6 +44,8 @@ func main() {
 	cmds.Register("agg", config.Handleragg)
 	cmds.Register("addfeed", config.HandleAddFeed)
 	cmds.Register("feeds", config.HandleFeed)
+	cmds.Register("follow", config.HandleFollow)
+	cmds.Register("following", config.HandleFollowing)
 
 	args := os.Args
 	if len(args) < 2 {

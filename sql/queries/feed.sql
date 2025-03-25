@@ -1,5 +1,5 @@
 -- name: CreateFeed :one 
-INSERT INTO feed (
+INSERT INTO feeds (
     id,
     created_at, 
     updated_at, 
@@ -18,5 +18,8 @@ VALUES (
 RETURNING *; 
 
 -- name: GetFeed :many 
-SELECT * FROM feed; 
+SELECT * FROM feeds; 
  
+-- name: GetFeedByURL :one 
+SELECT id FROM feeds
+WHERE url = $1;  
